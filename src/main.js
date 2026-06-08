@@ -175,25 +175,29 @@ document.querySelector("#app").innerHTML = `
 
       <div
         class="phone-showcase"
-        role="img"
-        aria-label="Concept CareGiver App screen showing device readiness, battery, connection, assist mode, maintenance and consent-based alerts."
+        aria-label="Interactive concept CareGiver App mockup"
       >
         <div class="phone-frame">
           <div class="phone-screen">
             <div class="app-topbar">
               <span>EXHOLD Care</span>
-              <strong>Parent profile</strong>
+              <strong class="profile-pill">Parent profile</strong>
+            </div>
+            <div class="app-tabs" role="tablist" aria-label="CareGiver App mock screens">
+              <button class="is-active" type="button" role="tab" aria-selected="true" data-app-tab="status">Status</button>
+              <button type="button" role="tab" aria-selected="false" data-app-tab="activity">Activity</button>
+              <button type="button" role="tab" aria-selected="false" data-app-tab="alerts">Alerts</button>
             </div>
             <div class="status-card safe">
-              <small>Current status</small>
-              <strong>Device ready</strong>
-              <span>Last device check-in 8 min ago</span>
+              <small id="app-panel-label">Current status</small>
+              <strong id="app-panel-title">Device ready</strong>
+              <span id="app-panel-subtitle">Last device check-in 8 min ago</span>
             </div>
             <div class="app-grid">
-              <div><small>Battery</small><strong>82%</strong></div>
-              <div><small>Connection</small><strong>Online</strong></div>
-              <div><small>Mode</small><strong>Assist</strong></div>
-              <div><small>Service</small><strong>14 days</strong></div>
+              <button type="button" data-app-detail="battery"><small>Battery</small><strong>82%</strong></button>
+              <button type="button" data-app-detail="distance"><small>Distance today</small><strong>420 m</strong></button>
+              <button type="button" data-app-detail="mode"><small>Mode</small><strong>Assist</strong></button>
+              <button type="button" data-app-detail="service"><small>Service</small><strong>14 days</strong></button>
             </div>
             <div class="alert-list">
               <div>
@@ -209,12 +213,12 @@ document.querySelector("#app").innerHTML = `
                 <p><strong>Emergency button</strong>No emergency alert triggered.</p>
               </div>
             </div>
-            <div class="app-button">Request support call</div>
+            <button class="app-button" type="button" data-support-action>Request support call</button>
           </div>
         </div>
-        <div class="app-side-card">
+        <div class="app-side-card" aria-live="polite">
           <strong>Designed for adult children</strong>
-          <p>Clear enough for quick checks, careful enough to avoid surveillance-style overreach.</p>
+          <p id="app-helper-text">Tap the tabs and cards to preview how families check consent-based device information.</p>
         </div>
       </div>
     </section>
@@ -420,6 +424,71 @@ document.querySelectorAll(".faq-item button").forEach(button => {
     button.querySelector(".faq-icon").textContent = expanded ? "+" : "−";
     button.nextElementSibling.hidden = expanded;
   });
+});
+
+const appViews = {
+  status: {
+    label: "Current status",
+    title: "Device ready",
+    subtitle: "Last device check-in 8 min ago",
+    helper: "Status view summarises readiness, battery, walking distance and service needs without replacing caregiver judgement."
+  },
+  activity: {
+    label: "Consent-based activity",
+    title: "420 m today",
+    subtitle: "Indoor and level-walkway use summary, shown only with user consent",
+    helper: "Activity view answers a common family question: how much walking support was used today, without showing constant location tracking."
+  },
+  alerts: {
+    label: "Configured alerts",
+    title: "No emergency alert",
+    subtitle: "Brake check due this week; service reminder in 14 days",
+    helper: "Alerts view separates emergency button events from ordinary maintenance reminders."
+  }
+};
+
+const appDetails = {
+  battery: "Battery is 82%. The family can plan charging before the next outing.",
+  distance: "Distance today is 420 m. This is a consent-based estimate of walking with EXHOLD, not a medical fitness score.",
+  mode: "Assist mode is active. The walker still depends on the user holding and guiding it.",
+  service: "Service is due in 14 days. The family can request a support call or arrange maintenance."
+};
+
+const appLabel = document.querySelector("#app-panel-label");
+const appTitle = document.querySelector("#app-panel-title");
+const appSubtitle = document.querySelector("#app-panel-subtitle");
+const appHelper = document.querySelector("#app-helper-text");
+const appTabs = document.querySelectorAll("[data-app-tab]");
+const appDetailCards = document.querySelectorAll("[data-app-detail]");
+
+function setAppView(name) {
+  const view = appViews[name];
+  if (!view) return;
+  appLabel.textContent = view.label;
+  appTitle.textContent = view.title;
+  appSubtitle.textContent = view.subtitle;
+  appHelper.textContent = view.helper;
+  appTabs.forEach(tab => {
+    const active = tab.dataset.appTab === name;
+    tab.classList.toggle("is-active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+}
+
+appTabs.forEach(tab => {
+  tab.addEventListener("click", () => setAppView(tab.dataset.appTab));
+});
+
+appDetailCards.forEach(card => {
+  card.addEventListener("click", () => {
+    appDetailCards.forEach(item => item.classList.remove("is-selected"));
+    card.classList.add("is-selected");
+    appHelper.textContent = appDetails[card.dataset.appDetail] ?? appViews.status.helper;
+  });
+});
+
+document.querySelector("[data-support-action]").addEventListener("click", () => {
+  appHelper.textContent = "Support request preview: a caregiver could ask EXHOLD support to call back about setup, brakes, battery or service.";
 });
 
 const form = document.querySelector("#interest-form");

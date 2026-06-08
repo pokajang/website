@@ -28,7 +28,13 @@ const caregiverNav = await page.locator('a[href="#caregiver-app"]').first().isVi
 const caregiverSection = await page.locator("#caregiver-app").isVisible();
 const phoneMockup = await page.locator(".phone-frame").isVisible();
 const caregiverText = await page.locator("#caregiver-app").innerText();
-const caregiverGraphicRole = await page.locator(".phone-showcase").getAttribute("role");
+
+await page.locator('[data-app-tab="activity"]').click();
+const activityTitle = await page.locator("#app-panel-title").innerText();
+await page.locator('[data-app-detail="distance"]').click();
+const distanceHelper = await page.locator("#app-helper-text").innerText();
+await page.locator("[data-support-action]").click();
+const supportHelper = await page.locator("#app-helper-text").innerText();
 
 await page.locator(".faq-item button").nth(1).click();
 const faqVisible = await page.locator(".faq-answer").nth(1).isVisible();
@@ -43,6 +49,10 @@ await page.reload({ waitUntil: "networkidle" });
 const mobileOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
 await page.locator(".menu-toggle").click();
 const mobileMenuOpen = await page.locator(".nav-links").evaluate(element => element.classList.contains("is-open"));
+await page.locator(".menu-toggle").click();
+await page.locator("#caregiver-app").scrollIntoViewIfNeeded();
+await page.locator('[data-app-tab="alerts"]').click();
+const mobileAlertTitle = await page.locator("#app-panel-title").innerText();
 
 await browser.close();
 
@@ -55,7 +65,10 @@ const results = {
   caregiverNav,
   caregiverSection,
   phoneMockup,
-  caregiverGraphicRole,
+  activityTitle,
+  distanceHelper,
+  supportHelper,
+  mobileAlertTitle,
   desktopOverflow,
   mobileOverflow,
   faqVisible,
@@ -74,7 +87,10 @@ if (
   !caregiverNav ||
   !caregiverSection ||
   !phoneMockup ||
-  caregiverGraphicRole !== "img" ||
+  activityTitle !== "420 m today" ||
+  !distanceHelper.includes("420 m") ||
+  !supportHelper.includes("Support request preview") ||
+  mobileAlertTitle !== "No emergency alert" ||
   /At home|Father|Short indoor walk recorded|surveillance-style monitoring|proven|guarantee/i.test(caregiverText) ||
   desktopOverflow ||
   mobileOverflow ||
