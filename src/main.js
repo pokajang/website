@@ -76,6 +76,7 @@ document.querySelector("#app").innerHTML = `
     </button>
     <nav class="nav-links" aria-label="Main navigation">
       <a href="#product">Product</a>
+      <a href="#caregiver-app">CareGiver App</a>
       <a href="#living">Use cases</a>
       <a href="#service">Service</a>
       <a href="#safety">Safety</a>
@@ -141,6 +142,80 @@ document.querySelector("#app").innerHTML = `
           <li>Foldable frame for storage and transport</li>
         </ul>
         <a class="text-link" href="#safety">See the safety boundaries <span>&rarr;</span></a>
+      </div>
+    </section>
+
+    <section class="section caregiver-app" id="caregiver-app">
+      <div class="caregiver-copy">
+        <p class="eyebrow">CareGiver App</p>
+        <h2>Simple visibility for families, without taking control away from the user.</h2>
+        <p>
+          The proposed caregiver app gives authorised family members a clear view of device
+          status, selected alerts and support needs. The older user remains involved through
+          consent settings and practical home setup.
+        </p>
+        <div class="app-benefits">
+          <article>
+            <span>Status</span>
+            <strong>Device status</strong>
+            <p>Battery level, connection, service reminders and latest device check-in.</p>
+          </article>
+          <article>
+            <span>Alert</span>
+            <strong>Helpful notifications</strong>
+            <p>Emergency button alerts and configured device or maintenance notices.</p>
+          </article>
+          <article>
+            <span>Care</span>
+            <strong>Consent-based support</strong>
+            <p>Only agreed information is shown to authorised caregivers.</p>
+          </article>
+        </div>
+      </div>
+
+      <div
+        class="phone-showcase"
+        role="img"
+        aria-label="Concept CareGiver App screen showing device readiness, battery, connection, assist mode, maintenance and consent-based alerts."
+      >
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="app-topbar">
+              <span>EXHOLD Care</span>
+              <strong>Parent profile</strong>
+            </div>
+            <div class="status-card safe">
+              <small>Current status</small>
+              <strong>Device ready</strong>
+              <span>Last device check-in 8 min ago</span>
+            </div>
+            <div class="app-grid">
+              <div><small>Battery</small><strong>82%</strong></div>
+              <div><small>Connection</small><strong>Online</strong></div>
+              <div><small>Mode</small><strong>Assist</strong></div>
+              <div><small>Service</small><strong>14 days</strong></div>
+            </div>
+            <div class="alert-list">
+              <div>
+                <span class="dot teal"></span>
+                <p><strong>Activity summary</strong>Available only when the user consents.</p>
+              </div>
+              <div>
+                <span class="dot purple"></span>
+                <p><strong>Brake check</strong>Manual brake test due this week.</p>
+              </div>
+              <div>
+                <span class="dot orange"></span>
+                <p><strong>Emergency button</strong>No emergency alert triggered.</p>
+              </div>
+            </div>
+            <div class="app-button">Request support call</div>
+          </div>
+        </div>
+        <div class="app-side-card">
+          <strong>Designed for adult children</strong>
+          <p>Clear enough for quick checks, careful enough to avoid surveillance-style overreach.</p>
+        </div>
       </div>
     </section>
 
@@ -300,6 +375,7 @@ document.querySelector("#app").innerHTML = `
     <div>
       <strong>Explore</strong>
       <a href="#product">Product</a>
+      <a href="#caregiver-app">CareGiver App</a>
       <a href="#service">Home service</a>
       <a href="#pricing">Pricing</a>
     </div>
@@ -352,4 +428,3 @@ form.addEventListener("submit", event => {
   form.hidden = true;
   document.querySelector("#form-success").hidden = false;
 });
-

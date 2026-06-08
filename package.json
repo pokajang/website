@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "audit": "npm run build && start-server-and-test preview http://127.0.0.1:4173 \"node audit-site.mjs\""
   },
   "devDependencies": {
+    "playwright": "^1.60.0",
+    "start-server-and-test": "^2.1.2",
     "vite": "^6.3.5"
   }
 }
